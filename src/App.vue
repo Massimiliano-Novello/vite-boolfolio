@@ -32,13 +32,13 @@ export default {
     <h1 class="text-center">I mie progetti</h1>
 
     <div class="row row-cols-4">
-      <div class="col" v-for="project in projects" :key="project.id">
+      <div class="col g-3" v-for="project in projects" :key="project.id">
         <projectCard  :project="project"/>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
  @use "./style/general.scss" as *;
 </style>

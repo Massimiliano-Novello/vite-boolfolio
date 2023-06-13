@@ -11,9 +11,9 @@ export default {
 
 <template>
 
-<div class="card">
+<div class="card h-100">
   <div class="card-body">
-    <h3 class="card-title">{{project.titolo}}</h3>
+    <h3 class="card-title text-center">{{project.titolo}}</h3>
   </div>
 </div>
 
