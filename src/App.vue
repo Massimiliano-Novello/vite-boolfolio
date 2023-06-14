@@ -1,16 +1,17 @@
 <script>
-import axios from 'axios';
-import projectCard from './components/projectCard.vue';
-import ProjectCard from './components/projectCard.vue';
+import axios from "axios";
+import projectCard from "./components/projectCard.vue";
 
 export default {
   components: {
     projectCard,
-},
-  data () {
+  },
+  data() {
     return {
-      projects: []
-    }
+      projects: [],
+      currentPage: 1,
+      lastPage: null,
+    };
   },
 
   mounted() {
@@ -18,13 +19,19 @@ export default {
   },
 
   methods: {
-    getProject() {
-      axios.get("http://127.0.0.1:8000/api/projects").then(resp => {
-        this.projects = resp.data.results;
+    getProject(pageNumber = 1) {
+      axios.get("http://127.0.0.1:8000/api/projects", {
+        params: {
+          page: pageNumber
+        }
+      }).then((resp) => {
+        this.projects = resp.data.results.data;
+        this.currentPage = resp.data.results.current_page;
+        this.lastPage = resp.data.results.last_page;
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -33,12 +40,20 @@ export default {
 
     <div class="row row-cols-4">
       <div class="col g-3" v-for="project in projects" :key="project.id">
-        <projectCard  :project="project"/>
+        <projectCard :project="project" />
       </div>
     </div>
+
+    <nav aria-label="Page navigation example" class=" mt-3">
+      <ul class="pagination">
+        <li :class="{'disabled' : currentPage === 1}" class="page-item"><a  @click.prevent="getProject(currentPage - 1)" class="page-link" href="#">Previous</a></li>
+        <li v-for="item in lastPage" class="page-item"><a  @click.prevent="getProject(item)" class="page-link" href="#">{{ item }}</a></li>
+        <li :class="{'disabled' : currentPage === lastPage}" class="page-item"><a  @click.prevent="getProject(currentPage + 1)" class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav>
   </div>
 </template>
 
 <style lang="scss">
- @use "./style/general.scss" as *;
+@use "./style/general.scss" as *;
 </style>
