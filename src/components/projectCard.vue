@@ -4,7 +4,7 @@ export default {
     name: 'projectCard',
     props: {
         project: Object
-    }
+    },
 }
 </script>
 
@@ -18,6 +18,7 @@ export default {
       <span v-if="project.type">{{ project.type.nome }}</span>
       <span v-else>Nessuna tipologia</span>
     </p>
+    <router-link :to="{name: 'single-project', params: {slug: project.slug}}" class="btn btn-primary" href="">Descrizione</router-link>
   </div>
 </div>
 
